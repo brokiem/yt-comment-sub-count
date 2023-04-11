@@ -8,30 +8,14 @@
    * Should be of the form *https://www.youtube.com/channel/<channel id>*
    */
   const getSubs = async (channelUrl) => {
-    const response = await fetch(channelUrl + '/about');
-    const text = await response.text();
-
-    // Get start of subscriber count string
-    let subStartIndex = text.indexOf(
-      '"subscriberCountText"',
-      text.indexOf(
-        '"c4TabbedHeaderRenderer"',
-        text.indexOf('window["ytInitialData"]')
-      )
-    );
+    const channelId = channelUrl.split('/').pop();
+    const response = await fetch("https://yt-sub-count.cyclic.app/" + channelId);
+    const res = await response.json();
+    const subCount = res.subscriber_count;
 
     // User has set their subscriber count to private
-    if (subStartIndex === -1) return '<i>Private</i>';
-    
-    subStartIndex = 14 + text.indexOf(
-      '"simpleText"',
-      subStartIndex
-    );
+    if (subCount === null) return 'Private';
 
-    // Get end of subscriber string
-    const subEndIndex = text.indexOf('"', subStartIndex);
-
-    let subCount = text.substring(subStartIndex, subEndIndex).split(' ')[0];
     return `${subCount} subscriber${subCount === '1' ? '' : 's'}`;
   }
 
