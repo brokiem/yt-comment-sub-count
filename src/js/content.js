@@ -40,7 +40,7 @@
     const subCounterSpan = document.createElement('span');
     commentHeaderElement.appendChild(subCounterSpan);
     subCounterSpan.className = 'subscriber-count';
-    subCounterSpan.innerHTML = subCount;
+    subCounterSpan.textContent = subCount;
     subCounterSpan.style.fontSize = '1.1rem';
     subCounterSpan.style.lineHeight = 'normal';
     subCounterSpan.style.color = '#ddd';
@@ -65,7 +65,7 @@
           // Hide element while we fetch new subscriber count
           subCounterSpan.style.visibility = 'hidden';
           const channelUrl = commentElement.querySelector('div#author-thumbnail > a').href;
-          subCounterSpan.innerHTML = await getSubs(channelUrl);
+          subCounterSpan.textContent = await getSubs(channelUrl);
           subCounterSpan.style.visibility = 'visible';
         })
     });
